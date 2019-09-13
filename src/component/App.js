@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import SearchForm from "./SearchForm";
 import SearchList from "../pages/SearchList";
@@ -21,9 +21,7 @@ export default class App extends Component {
 			<div className="container">
 				<SearchForm getQuery={this.getQuery} />
 
-				<Switch>
-					<Route exact path="/" component={SearchList} />
-				</Switch>
+				<Route exact path="/" component={SearchList} />
 			</div>
 		);
 	}
