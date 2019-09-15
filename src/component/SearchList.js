@@ -1,18 +1,21 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 
 import mock from "../mock";
 
 const getParamFromProps = props => queryString.parse(props.location.search).param;
 
-export default class SearchList extends Component {
+class SearchList extends Component {
 	state = {
 		articles: []
 	};
 
 	componentDidMount() {
 		const searchQuery = getParamFromProps(this.props);
-		this.setState({ articles: mock.filter(a => a.title === searchQuery) });
+		if (!searchQuery) return;
+
+		this.setState({ articles: mock.filter(({ title }) => title.search(searchQuery) >= 0) });
 	}
 
 	componentDidUpdate(prevProps) {
@@ -21,7 +24,7 @@ export default class SearchList extends Component {
 
 		if (prevSearchQuery === nextSearchQuery) return;
 
-		this.setState({ articles: mock.filter(a => a.title === nextSearchQuery) });
+		this.setState({ articles: mock.filter(({ title }) => title.search(nextSearchQuery) >= 0) });
 	}
 
 	render() {
@@ -42,3 +45,5 @@ export default class SearchList extends Component {
 		);
 	}
 }
+
+export default withRouter(SearchList);

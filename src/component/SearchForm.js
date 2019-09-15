@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-export default class SearchForm extends Component {
+class SearchForm extends Component {
 	state = {
 		inputValue: ""
 	};
@@ -12,20 +13,22 @@ export default class SearchForm extends Component {
 
 	onSubmit = e => {
 		const { inputValue } = this.state;
-		const { getQuery } = this.props;
 
 		e.preventDefault();
 
-		getQuery(inputValue);
+		if (!inputValue) return;
+
+		this.props.history.push(`?param=${inputValue}`);
 	};
 
 	render() {
-		const { inputValue } = this.state;
 		return (
 			<form onSubmit={this.onSubmit} className="search-form">
-				<input type="search" placeholder="Enter text" value={inputValue} onChange={this.handleOnChange} />
+				<input type="search" placeholder="Enter text" onChange={this.handleOnChange} />
 				<button type="submit">Search</button>
 			</form>
 		);
 	}
 }
+
+export default withRouter(SearchForm);

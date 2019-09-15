@@ -1,28 +1,13 @@
-import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import React from "react";
 
 import SearchForm from "./SearchForm";
-import SearchList from "../pages/SearchList";
+import SearchList from "./SearchList";
 
-export default class App extends Component {
-	state = {
-		searchQuery: null
-	};
+const App = () => (
+	<div className="container">
+		<SearchForm />
+		<SearchList />
+	</div>
+);
 
-	getQuery = searchQuery => {
-		this.props.history.push({
-			pathname: this.props.location.pathname,
-			search: `param=${searchQuery}`
-		});
-	};
-
-	render() {
-		return (
-			<div className="container">
-				<SearchForm getQuery={this.getQuery} />
-
-				<Route exact path="/" component={SearchList} />
-			</div>
-		);
-	}
-}
+export default App;
